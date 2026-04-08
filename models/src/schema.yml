@@ -1,0 +1,54 @@
+models:
+  - name: dim_host_listings
+    data_tests:
+       - minimum_count:
+          arguments:
+            minimum_count_row: 100000
+          config:
+            severity: Warn
+          
+    columns:
+      - name: listing_id
+        data_tests:
+          - unique
+          - not_null
+      - name: host_id
+        data_tests:
+         - not_null
+         - relationships:
+             arguments:
+               to: ref('dim_hosts')
+               field: host_id
+               
+      - name: room_type
+        data_tests:
+          - accepted_values:
+             arguments:
+               values: ['Entire home/apt',
+                        'Private room',
+                        'Shared room',
+                        'Hotel room']
+      - name: minimum_nights
+        data_tests:
+          - positive_values
+
+
+  - name: dim_hosts
+    config:
+        contract:
+          enforced: true
+    columns:
+      - name: host_id
+        data_type: integer
+      - name: host_name1
+        data_type: string
+      - name: is_superhost
+        data_type: string
+      - name: updated_at
+        data_type: timestamp
+      - name: created_at
+        data_type: timestamp
+
+
+          
+          

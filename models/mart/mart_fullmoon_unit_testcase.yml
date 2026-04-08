@@ -1,0 +1,20 @@
+unit_tests:      
+  - model: mart_fullmoon_reviews
+    name: mart_reviews_unitcase
+    given:
+      - input: ref('fact_reviews')
+        rows: 
+          - {review_date: '2021-10-20'}
+          - {review_date: '2021-10-21'}
+          - {review_date: '2021-10-22'}
+
+      - input: ref('seed_full_moon_dates')
+      
+        rows: 
+          - {full_moon_date: '2021-10-20'}
+    expect:
+      rows:
+        - {review_date: '2021-10-20', is_full_moon: "not full moon"}
+        - {review_date: '2021-10-21', is_full_moon: "full moon"}
+        - {review_date: '2021-10-22', is_full_moon: "not full moon"}
+
