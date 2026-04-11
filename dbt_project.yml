@@ -32,15 +32,20 @@ clean-targets: # directories to be removed by `dbt clean`
 # instead be materialized as tables. Any models you add to the root of the models folder will
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
+on-run-start: 
+  - "create   table if not exists   manish (model_name varchar(40),time_end_date timestamp)"
 
 models:
   preethi_dbt:
     # Applies to all files under models/example/
     +materialized: view
+    +post-hook: "insert into manish values ('{{this}}',current_timestamp())"
+    
     dim:
       +materialized: table
     src:
       +materialized: ephemeral
+      
 data_tests:
     +store_failures: true
     +schema: _test_failures
