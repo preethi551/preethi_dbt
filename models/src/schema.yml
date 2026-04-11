@@ -6,7 +6,10 @@ models:
             minimum_count_row: 100000
           config:
             severity: Warn
-          
+      #  - dbt_expectations.expect_table_row_count_to_equal_other_table:
+      #     arguments: 
+      #       compare_model: source('airbnb','hosts')
+     
     columns:
       - name: listing_id
         data_tests:
